@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login - Employee Management System</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-50 flex items-center justify-center min-h-screen">
+    <div class="bg-white border border-slate-200 p-8 rounded-2xl shadow-xl shadow-slate-200/50 w-full max-w-md">
+        <div class="text-center mb-8">
+            <div class="inline-flex bg-indigo-600 p-3 rounded-xl text-white mb-3 shadow-lg shadow-indigo-500/20">
+                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                </svg>
+            </div>
+            <h1 class="text-2xl font-bold text-slate-900 tracking-wide">Welcome Back</h1>
+            <p class="text-slate-500 text-sm mt-1">Sign in to your EMS Admin Portal</p>
+        </div>
+
+        <div id="error-msg" class="hidden bg-rose-50 border border-rose-200 text-rose-600 text-sm p-3 rounded-lg mb-4 text-center"></div>
+
+        <form id="login-form" class="space-y-5">
+            <div>
+                <label class="block text-slate-700 text-sm font-medium mb-1.5">Username</label>
+                <input type="text" id="username" required placeholder="Enter admin username"
+                    class="w-full bg-slate-50 border border-slate-300 rounded-lg px-4 py-2.5 text-slate-900 placeholder-slate-400 focus:outline-none focus:border-indigo-600 focus:ring-1 focus:ring-indigo-600 transition">
+            </div>
+            <div>
+                <label class="block text-slate-700 text-sm font-medium mb-1.5">Password</label>
+                <input type="password" id="password" required placeholder="••••••••"
+                    class="w-full bg-slate-50 border border-slate-300 rounded-lg px-4 py-2.5 text-slate-900 placeholder-slate-400 focus:outline-none focus:border-indigo-600 focus:ring-1 focus:ring-indigo-600 transition">
+            </div>
+            <button type="submit" 
+                class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2.5 rounded-lg transition shadow-lg shadow-indigo-600/20 cursor-pointer">
+                Sign In
+            </button>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById("login-form").addEventListener("submit", async (e) => {
+            e.preventDefault();
+            const username = document.getElementById("username").value;
+            const password = document.getElementById("password").value;
+            const errorDiv = document.getElementById("error-msg");
+
+            try {
+                const res = await fetch("http://localhost:3000/api/auth/login", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ username, password })
+                });
+                const data = await res.json();
+                if (data.success) {
+                    localStorage.setItem("token", data.token);
+                    window.location.href = "index.html";
+                } else {
+                    errorDiv.textContent = data.message;
+                    errorDiv.classList.remove("hidden");
+                }
+            } catch (err) {
+                errorDiv.textContent = "Server connection failed!";
+                errorDiv.classList.remove("hidden");
+            }
+        });
+    </script>
+</body>
+</html>
