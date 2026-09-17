@@ -9,6 +9,10 @@ A professional, responsive Full-Stack Employee Management System built with **No
 - **Search & Filter**: Real-time search by employee name and dynamic department filtering.
 - **CRUD Operations**: Add, view, and delete employee records (restricted to authenticated admins).
 - **Responsive UI**: Modern interface crafted with Tailwind CSS (Corporate Light Theme).
+### 🔑 Demo Login Credentials
+To test the application, use the following credentials:
+- **Username:** `admin`
+- **Password:** `admin123`
 
 ---
 
